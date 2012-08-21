@@ -45,6 +45,7 @@ $(function() {
     chrome.tabs.getSelected(null, function(tab) {
         // Extension
         chrome.tabs.sendRequest(tab.id, {helper: 'get_note'}, function(response) {
+            var handleSave;
             if (response){
                 selected_note = response.note;
             } else {
@@ -166,7 +167,7 @@ $(function() {
                 )
 
                 // Handle save
-                $('#submit_clip').click(function(e){
+                handleSave = function(e){
                     // Data
                     var data = {
                         url: url,
@@ -205,7 +206,9 @@ $(function() {
                     // Save to Kippt in background
                     Socket.postTask(data);
                     Kippt.closePopover();
-                });
+                };
+                $(document).bind('keydown.ctrl_k', handleSave);
+                $('#submit_clip').click(handleSave);
                 
                 // Cache title & notes on change
                 $('#id_title').on('keyup change cut paste', function(e){

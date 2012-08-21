@@ -62,6 +62,5 @@
             sendResponse({}); // snub them.
         }
     });
-
 })();
 
